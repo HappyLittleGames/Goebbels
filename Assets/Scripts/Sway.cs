@@ -19,8 +19,8 @@ public class Sway : MonoBehaviour
 
         m_startRot = m_manRoot.transform.rotation;
 
-        m_maxRight -= 1000;
-        m_maxLeft -= 1000;
+        m_maxRight = m_startRot.eulerAngles.x - m_maxRight;
+        m_maxLeft = m_startRot.eulerAngles.x - m_maxLeft;
     }
 
 
@@ -31,22 +31,23 @@ public class Sway : MonoBehaviour
 
         if (m_swayingLeft)
         {
-            m_manRoot.transform.Rotate(0, 0, m_swayRate * Time.deltaTime);
+            m_manRoot.transform.Rotate(m_swayRate * Time.deltaTime,0,0);
         }
-        else
-        {
-            m_manRoot.transform.Rotate(0, 0, -m_swayRate * Time.deltaTime);
-        }
+        //else
+        //{
+        //    m_manRoot.transform.Rotate(-m_swayRate * Time.deltaTime,0,0);
+        //}
 
-        Debug.Log(m_manRoot.transform.rotation.eulerAngles.z);
+        Debug.Log(m_manRoot.transform.rotation.eulerAngles.x);
 
-        if (m_manRoot.transform.rotation.eulerAngles.z - 1000 > m_maxLeft)
+        if (m_manRoot.transform.rotation.eulerAngles.x > m_maxLeft)
         {
-            m_swayingLeft = false;
+            //m_swayingLeft = false;
+            m_swayRate = -m_swayRate;
         }
-        else if (m_manRoot.transform.rotation.eulerAngles.z - 1000 < m_maxRight)
-        {
-            m_swayingLeft = true;
-        }
+        //if (m_manRoot.transform.rotation.eulerAngles.x < m_maxRight)
+        //{
+        //    //m_swayingLeft = true;
+        //}
     }
 }

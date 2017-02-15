@@ -9,6 +9,6 @@ public class Sounder : MonoBehaviour {
 
     public void PlaySound(int sound, float volume)
     {
-        m_source.PlayOneShot(m_sounds[sound], volume);
+        m_source.PlayOneShot(m_sounds[sound], volume * 4);
     }
 }

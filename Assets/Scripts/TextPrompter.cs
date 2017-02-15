@@ -2,13 +2,12 @@
 using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
-
 public class TextPrompter : MonoBehaviour
 {
-    public void SetString(string str) { PushChars(str); }
     private List<char> m_letterList;
 
     private bool m_clicked = false;
+    [SerializeField] private StringRepo m_stringRepo; // RequireComponent eller kolla om den finns?
     [SerializeField] private Button m_button = null;
     [SerializeField] private Button m_nextButton = null;
     [SerializeField] private Text m_text;
@@ -25,6 +24,17 @@ public class TextPrompter : MonoBehaviour
     private JawBounce m_jawBouncer = null;
 
     [SerializeField] private GameObject m_nextItem;
+
+    public void SetString(string str)
+    {   
+        if (m_stringRepo == null)
+            PushChars(str);
+        else
+        {
+            PushChars(m_stringRepo.GetRandomThing() + m_stringRepo.GetRandomOpinion() + m_stringRepo.GetRandomSelf());
+        }
+    }
+
 
     void Start()
     {
@@ -87,7 +97,7 @@ public class TextPrompter : MonoBehaviour
             {
                 m_text.text = "";
                 m_isPrinting = true;
-                SetString(m_string);
+                SetString(m_stringRepo.GetRandomThing() + m_stringRepo.GetRandomOpinion() + m_stringRepo.GetRandomSelf());
             }
         }
         else
@@ -99,7 +109,7 @@ public class TextPrompter : MonoBehaviour
 
                 m_text.text = "";
                 m_isPrinting = true;
-                SetString(m_string);
+                SetString(m_stringRepo.GetRandomThing() + m_stringRepo.GetRandomOpinion() + m_stringRepo.GetRandomSelf());
             }
             
         }
@@ -113,10 +123,10 @@ public class TextPrompter : MonoBehaviour
 
     public void NextButton()
     {
-        if (m_curentString < m_strings.Length)
+        if ((m_curentString < m_strings.Length) || (m_stringRepo != null))
         {
-            m_string = m_strings[m_curentString];
-            SetString(m_strings[m_curentString]);
+            m_string = m_stringRepo.GetRandomThing() + m_stringRepo.GetRandomOpinion() + m_stringRepo.GetRandomSelf();
+            SetString(m_stringRepo.GetRandomThing() + m_stringRepo.GetRandomOpinion() + m_stringRepo.GetRandomSelf());
             ClickedButton();
             // SaveString(m_strings[m_curentString]);
 
